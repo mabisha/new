@@ -1,0 +1,97 @@
+.detail-box-clip-path-div,
+.detail-box-clip-path-div-two,
+.detail-box-clip-path-div-four,
+.detail-box-clip-path-div-three {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.detail-box-clip-path-div {
+  background-color: rgb(231, 231, 231, 0.4);
+  clip-path: circle(40% at 100% 0);
+  z-index: 0;
+}
+
+.detail-box-clip-path-div-two {
+  clip-path: circle(30% at 100% 0);
+  background-color: rgba(189, 189, 189, 0.4);
+  z-index: 1;
+}
+.detail-box-clip-path-div-three {
+  clip-path: circle(22% at 100% 0);
+  background-color: rgba(143, 126, 199, 0.4);
+  z-index: 2;
+}
+.detail-box-clip-path-div-four {
+  clip-path: circle(15% at 100% 0);
+  background-color: rgba(106, 104, 212, 0.5);
+  z-index: 2;
+}
+
+.detail-box-container {
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 8px 20px;
+  background-color: rgba(255, 255, 255, 0.2);
+  min-width: 330px;
+  height: 160px;
+  width: 30%;
+  border-radius: 15px;
+  flex: 1;
+  border: 1px solid rgb(235, 234, 234);
+  box-shadow: 1px 1px 10px 1px rgb(236, 236, 236);
+}
+.detail-box-inner-div,
+.detail-box-inner-div-icons {
+  z-index: 10;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  height: 50px;
+  width: 100%;
+  text-transform: capitalize;
+}
+.detail-box-inner-div-icons {
+  height: 60px;
+  justify-content: space-between;
+}
+.detail-box-extra-icons-container,
+.detail-box-icons-container {
+  color: black;
+  z-index: 10;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(235, 246, 255);
+  border-radius: 5px;
+}
+.detail-box-extra-icons-container:hover {
+  cursor: pointer;
+  color: black;
+  background-color: rgb(229, 238, 246);
+}
+@media (max-width: 900px) {
+  .detail-box-container {
+    width: 100%;
+    height: 220px;
+  }
+}
+@media (min-width: 901px) and (max-width: 1300px) {
+  .detail-box-container {
+    width: 47%;
+  }
+}
+@media (min-width: 1301px) and (max-width: 1500px) {
+  .detail-box-container {
+    flex: 1;
+  }
+}

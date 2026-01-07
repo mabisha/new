@@ -1,0 +1,66 @@
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const routes = require("./Routes/AdminRoutes");
+const helmet = require("helmet");
+const app = express();
+
+const ALLOWED_ORIGINS = [
+  "https://rosebudschoolnepal.org",
+  "https://www.rosebudschoolnepal.org",
+  "rosebudschoolnepal.org",
+  "http://localhost:7896",
+];
+
+// CORS configuration
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (ALLOWED_ORIGINS.includes(origin) || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+);
+
+// Enable preflight requests for all routes
+app.options("*", cors());
+
+// Middleware setup
+app.use(cookieParser());
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(
+  bodyParser.urlencoded({
+    limit: "50mb",
+    extended: true,
+    parameterLimit: 50000,
+  })
+);
+
+// Origin check middleware
+app.use((req, res, next) => {
+  console.log({ "Origin:": req?.headers?.origin });
+  const requestOrigin = req.headers.origin;
+  if (requestOrigin && !ALLOWED_ORIGINS.includes(requestOrigin)) {
+    return res.status(403).json({
+      error: "Access Forbidden",
+      message: `You are not allowed to access this resource from this origin ${requestOrigin}.`,
+    });
+  }
+  next();
+});
+
+// Routes
+app.use("/app", routes);
+
+// Start server
+const port = process?.env?.PORT || 5000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});

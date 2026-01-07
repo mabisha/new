@@ -1,0 +1,4 @@
+const CLOUDINARY_USER_PRESET = "vzcr34nv";
+const CLOUDINARY_USER_Name = "duj384ant";
+
+export { CLOUDINARY_USER_PRESET, CLOUDINARY_USER_Name };

@@ -1,0 +1,151 @@
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { HiOutlineSearch } from "react-icons/hi";
+import { MdOutlineAdd } from "react-icons/md";
+import { Link } from "react-router-dom";
+import TanstackTable from "../Elements/TanstackTable";
+import { getAllPublications } from "../../../../utils/apiRequest";
+import { AiTwotoneDelete, AiTwotoneEye } from "react-icons/ai";
+import {
+  PiLinkSimpleHorizontalDuotone,
+  PiNotePencilDuotone,
+} from "react-icons/pi";
+const DashGalleryTable = ({ data }) => {
+  const [filter, setFilter] = useState("");
+  const queryClient = useQueryClient();
+  const columns = [
+    {
+      header: "SN",
+      cell: (props) => {
+        return <span>{props.row.index + 1}</span>;
+      },
+    },
+    {
+      accessorKey: "title",
+      header: "Title",
+    },
+
+    {
+      accessorKey: "description",
+      header: "Description",
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: (props) => {
+        const active = props.getValue();
+
+        return <span>{active ? "Active" : "Not Active"}</span>;
+      },
+    },
+    {
+      accessorFn: (row) => {
+        return row.id;
+      },
+      header: "Images",
+      cell: (props) => {
+        return (
+          <Link
+            to={`view/${props.getValue()}`}
+            className=" mr-auto ml-3 flex aspect-square w-9 items-center justify-center rounded-md border border-[#eee]  text-xl  duration-200  hover:text-matte"
+          >
+            <AiTwotoneEye />
+          </Link>
+        );
+      },
+    },
+    {
+      accessorKey: "public_id",
+      header: "File",
+      cell: (props) => {
+        const link = `https://drive.google.com/file/d/${props.getValue()}/view`;
+
+        return (
+          <Link to={link} target="_blank">
+            <PiLinkSimpleHorizontalDuotone size={22} />
+          </Link>
+        );
+      },
+    },
+
+    {
+      accessorFn: (row) => {
+        return row.id;
+      },
+      header: "Update",
+      cell: (props) => {
+        return (
+          <Link
+            to={`edit/${props.getValue()}`}
+            className=" mr-auto ml-3 flex aspect-square w-9 items-center justify-center rounded-md text-xl hover:text-[#50C878]"
+          >
+            <PiNotePencilDuotone />
+          </Link>
+        );
+      },
+    },
+    {
+      accessorFn: (row) => row.id,
+      header: "Delete",
+      cell: (props) => (
+        <Link
+          to={`delete/${props.getValue()}`}
+          className="mr-auto ml-2 flex aspect-square w-9 items-center justify-center rounded-md  text-xl duration-200 hover:text-[#FF5556] "
+        >
+          <AiTwotoneDelete />
+        </Link>
+      ),
+    },
+  ];
+
+  const prefetchGenres = async () => {
+    await queryClient.prefetchQuery({
+      queryKey: ["gallery"],
+      queryFn: () => getAllPublications(),
+    });
+  };
+
+  return (
+    <div className="gallery__table">
+      <div className="flex items-center justify-between gap-3 px-3 py-2 lg:px-5 lg:py-3">
+        <p className="hidden text-lg font-semibold text-[#1d1d1d] sm:block ">
+          Gallery List
+        </p>
+        <div className="flex justify-end flex-1 items-center gap-4">
+          <div className="relative w-[60%] max-w-[220px] sm:w-auto sm:max-w-none">
+            <input
+              type="text"
+              onChange={(e) => setFilter(e.target.value)}
+              value={filter}
+              placeholder="Search Gallery"
+              className="block w-full focus:border-matte/30 rounded-lg border border-gray-300 px-2 py-1.5 pl-8 text-sm placeholder:text-[#bbb] focus:outline-none sm:w-44 sm:rounded-xl sm:px-3 sm:py-2 sm:pl-8 sm:text-xs"
+            />
+            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-lg text-gray-400/80">
+              <HiOutlineSearch />
+            </span>
+          </div>
+
+          <Link
+            to="new"
+            className="flex items-center gap-1 rounded-sm bg-matte p-2 px-2 text-xs font-medium text-white"
+            onMouseOver={prefetchGenres}
+          >
+            <span className="text-xl">
+              <MdOutlineAdd />
+            </span>
+            <p>Add New</p>
+          </Link>
+        </div>
+      </div>
+      <TanstackTable
+        data={data ? data : []}
+        columns={columns}
+        filter={filter}
+        setFilter={setFilter}
+        pageSize={10}
+      />
+    </div>
+  );
+};
+
+export default DashGalleryTable;

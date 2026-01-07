@@ -1,0 +1,23 @@
+.parallax-section {
+  background-image: url("../../assets/students.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.my-player-container .player-element:active {
+  background-color: transparent !important;
+}
+.ytp-chrome-top,
+.ytp-show-cards-title {
+  background-color: transparent;
+  color: transparent;
+  z-index: -100;
+}
+.react-video {
+  background-image: url("../../assets/events.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: 0px -175px;
+  background-repeat: repeat;
+}
