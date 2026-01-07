@@ -1,0 +1,23 @@
+const DEFAULT_COLOR = "#222222"; //GREY
+const PRIMARY_COLOR = "#e0e0e0"; //WHITE
+const SECONDARY_COLOR = "#D22E28"; //RED
+const DUSK_COLOR = "rgb(148 140 140)";
+const FACEBOOK = "#1877f2";
+const TWITTER = " #1da1f2";
+const INSTAGRAM = "#c32aa3";
+const YOUTUBE = "#ff0000";
+
+const DARK_BLACK = "#090100";
+const RED = "#4E0B0A";
+export {
+  DEFAULT_COLOR,
+  PRIMARY_COLOR,
+  SECONDARY_COLOR,
+  DUSK_COLOR,
+  FACEBOOK,
+  INSTAGRAM,
+  TWITTER,
+  YOUTUBE,
+  DARK_BLACK,
+  RED,
+};
