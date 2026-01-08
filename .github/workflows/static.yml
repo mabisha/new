@@ -1,4 +1,3 @@
-# Simple workflow for deploying static content to GitHub Pages
 name: Deploy static content to Pages
 
 on:
@@ -25,7 +24,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 1. Set up Node.js so we can run npm commands
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -33,12 +31,11 @@ jobs:
           cache: 'npm'
           cache-dependency-path: './frontend/package-lock.json'
 
-      # 2. Install dependencies inside the frontend folder
+      # FIX: Added --legacy-peer-deps to ignore version conflicts
       - name: Install dependencies
         working-directory: ./frontend
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
-      # 3. Build the project (creates the 'dist' folder)
       - name: Build
         working-directory: ./frontend
         run: npm run build
@@ -46,11 +43,9 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      # 4. Upload the built artifact (the 'dist' folder, NOT 'frontend')
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # This must match your Vite build output directory
           path: './frontend/dist'
 
       - name: Deploy to GitHub Pages
