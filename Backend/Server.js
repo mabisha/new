@@ -55,14 +55,21 @@ app.use((req, res, next) => {
 
 app.use("/app", routes);
 
-const port = process?.env?.PORT || 5000;
+const port = process.env.PORT || 5000;
 
-// 2. REPLACE THE 'app.listen' PART WITH THIS:
+// 1. Sync Database (This creates your tables automatically)
 db.sequelize.sync({ alter: true }).then(() => {
   console.log("Synced db.");
-  app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-  });
 }).catch((err) => {
   console.log("Failed to sync db: " + err.message);
 });
+
+// 2. Only "listen" if we are running locally (Not on Vercel)
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}
+
+// 3. Export the app for Vercel
+module.exports = app;
