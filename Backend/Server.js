@@ -5,6 +5,8 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const routes = require("./Routes/AdminRoutes");
 const helmet = require("helmet");
+const db = require("./Schemas");
+
 const app = express();
 
 const ALLOWED_ORIGINS = [
@@ -12,9 +14,9 @@ const ALLOWED_ORIGINS = [
   "https://www.rosebudschoolnepal.org",
   "rosebudschoolnepal.org",
   "http://localhost:7896",
+  process.env.FRONTEND_URL
 ];
 
-// CORS configuration
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -29,10 +31,7 @@ app.use(
   })
 );
 
-// Enable preflight requests for all routes
 app.options("*", cors());
-
-// Middleware setup
 app.use(cookieParser());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(
@@ -43,9 +42,7 @@ app.use(
   })
 );
 
-// Origin check middleware
 app.use((req, res, next) => {
-  console.log({ "Origin:": req?.headers?.origin });
   const requestOrigin = req.headers.origin;
   if (requestOrigin && !ALLOWED_ORIGINS.includes(requestOrigin)) {
     return res.status(403).json({
@@ -56,11 +53,16 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes
 app.use("/app", routes);
 
-// Start server
 const port = process?.env?.PORT || 5000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+
+// 2. REPLACE THE 'app.listen' PART WITH THIS:
+db.sequelize.sync({ alter: true }).then(() => {
+  console.log("Synced db.");
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}).catch((err) => {
+  console.log("Failed to sync db: " + err.message);
 });
