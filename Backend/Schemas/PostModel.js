@@ -10,7 +10,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
     },
     approved: {
-      type: Sequelize.TINYINT,
+      type: Sequelize.SMALLINT,
     },
     id: {
       type: Sequelize.INTEGER,
@@ -21,7 +21,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
     },
     status: {
-      type: Sequelize.TINYINT,
+      type: Sequelize.SMALLINT,
     },
   });
   return Post;

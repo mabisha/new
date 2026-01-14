@@ -15,13 +15,13 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.ARRAY(Sequelize.STRING(10000)),
     },
     approved: {
-      type: Sequelize.TINYINT,
+      type: Sequelize.SMALLINT,
     },
     public_id: {
       type: Sequelize.STRING,
     },
     status: {
-      type: Sequelize.TINYINT,
+      type: Sequelize.SMALLINT,
     },
   });
   return Image;
