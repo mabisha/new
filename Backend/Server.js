@@ -53,6 +53,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/app", (req, res) => {
+  res.status(200).send("Backend Running Successfully!");
+});
+
 app.use("/app", routes);
 
 const port = process.env.PORT || 5000;
