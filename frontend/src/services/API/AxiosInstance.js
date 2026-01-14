@@ -1,12 +1,13 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://rosebudschoolnepal.org/app",
+  baseURL: "https://rosebudbackend.vercel.app/app",
+  // baseURL: "https://rosebudschoolnepal.org/app",
   // baseURL: "http://localhost:5000/app",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "https://rosebudschoolnepal.org",
+    // "Access-Control-Allow-Origin": "https://rosebudschoolnepal.org",
     // "Access-Control-Allow-Origin": "http://localhost:7896",
   },
 });
