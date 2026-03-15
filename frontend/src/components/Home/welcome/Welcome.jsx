@@ -19,7 +19,7 @@ const Welcome = ({ handleExploreClick }) => {
           <SouthIcon fontSize="large" />
         </div>
       </div>
-      <Banner title={"From"} subtitle={"Dusk to Dawn"} />
+      <Banner title={"From"} subtitle={"Dusk till Dawn"} />
 
       <div className="w-full flex h-full  gap-10 lg:gap-0 justify-center lg:justify-start items-center lg:items-start pl-2 sm:pl-5 lg:pl-0 pr-2 sm:pr-5 flex-wrap lg:flex-nowrap">
         <div className="h-[20rem]  w-[90%] lg:min-w-[45%]  xl:min-w-[40%] min-h-[10rem] md:h-full flex flex-col px-0 md:px-0 relative -bottom-14 left-5 lg:left-5 lg:bottom-6">
