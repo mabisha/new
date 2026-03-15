@@ -83,10 +83,12 @@ const Login = () => {
           navigate(from);
           return "Login successful!";
         } else {
+          console.log(resp);
           throw new Error("Authentication Failed!");
         }
       })
       .catch((err) => {
+        console.log(err);
         throw new Error(
           err.response?.data?.message || "Authentication Failed!"
         );
@@ -202,9 +204,8 @@ const Login = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full flex min-w-[280px] justify-center items-center transition-all duration-[300ms]  p-3 rounded-lg text-white capitalize font-semibold  ${
-              isLoading ? "bg-secondary/70" : "bg-secondary hover:bg-black"
-            }`}
+            className={`w-full flex min-w-[280px] justify-center items-center transition-all duration-[300ms]  p-3 rounded-lg text-white capitalize font-semibold  ${isLoading ? "bg-secondary/70" : "bg-secondary hover:bg-black"
+              }`}
           >
             {isLoading ? (
               <span className="w-full flex justify-center items-center gap-2">

@@ -18,7 +18,7 @@ import UploadImage from "../Elements/UploadImage";
 import Spinner from "../Elements/Spinner";
 import { uploadSingleImage } from "../../../../utils/ImageUploader/SingleImageUploader";
 import { AiTwotoneDelete } from "react-icons/ai";
-import { uploadFile } from "../../../../utils/UploadToDrive";
+import { uploadFile, setFilePermissions } from "../../../../utils/UploadToDrive";
 import { useCookies } from "react-cookie";
 const PublicationsForm = () => {
   const { publicationId } = useParams();
@@ -58,10 +58,16 @@ const PublicationsForm = () => {
   const mutation = useMutation({
     mutationFn: addPublication,
     onSuccess: () => {
+      // 1. Refresh the table (Syncs with DashPublicationsTable)
       queryClient.invalidateQueries(["publications"]);
       toast.success("Publication added successfully!");
+      // 2. Close the modal by navigating back
       navigate("/admin/publication");
     },
+    onError: () => {
+      setIsUploading(false);
+      toast.error("Database save failed.");
+    }
   });
 
   const deletePublicationQuery = useMutation({
@@ -81,12 +87,10 @@ const PublicationsForm = () => {
   const updateMutation = useMutation({
     mutationFn: (formData) => updatePublication(formData),
     onSuccess: () => {
-      queryClient.invalidateQueries(["publications", publicationId]);
+      // Refresh both the list and the specific item
+      queryClient.invalidateQueries(["publications"]);
       toast.success("Publication updated successfully!");
       navigate("/admin/publication");
-    },
-    onError: (error) => {
-      console.log(error);
     },
   });
 
@@ -99,9 +103,16 @@ const PublicationsForm = () => {
         return toast.error("Please upload the publication file");
 
       let fileId = null;
+
+      // Fix: Remove the duplicate block and correctly handle file upload + permissions
       if (file && !data?.file) {
         setIsUploading(true);
         fileId = await uploadFile(file, accessToken);
+
+        if (fileId) {
+          // Ensure file is publicly readable so it appears in the table/site
+          await setFilePermissions(fileId, accessToken);
+        }
       }
 
       const sameImage = coverImg === data?.imagelink;
@@ -112,23 +123,20 @@ const PublicationsForm = () => {
 
       const publicationData = {
         ...data,
-        public_id: data?.file ? data.file : fileId,
-        imagelink: "",
+        public_id: fileId || data?.file, // Use new fileId or existing one
+        imagelink: sameImage ? data?.imagelink : uploadedImage?.data?.url,
       };
+
+      // Correctly trigger the mutation
       if (!publicationId && !isEdit) {
-        publicationData.imagelink = uploadedImage?.data?.url;
-        return mutation.mutate(publicationData);
+        mutation.mutate(publicationData);
       } else {
-        if (sameImage) {
-          publicationData.imagelink = data?.imagelink;
-        }
-        if (coverImg && !sameImage)
-          publicationData.imagelink = uploadedImage?.data?.url;
-        return updateMutation.mutate({ publicationId, data: publicationData });
+        updateMutation.mutate({ publicationId, data: publicationData });
       }
+
     } catch (err) {
       setIsUploading(false);
-      toast.error(err);
+      toast.error(err.message || "An error occurred");
     }
   };
   useEffect(() => {

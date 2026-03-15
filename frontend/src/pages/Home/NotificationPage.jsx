@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllNotice } from "../../utils/apiRequest";
 import PreLoader from "../../components/Home/Loading/PreLoader";
 import NotificationCard from "../../components/Home/Cards/notification-card";
+
 const NotificationPage = () => {
   const {
     data: notice,
@@ -18,6 +19,7 @@ const NotificationPage = () => {
   if (isLoading) {
     return <PreLoader />;
   }
+
   if (error) {
     return (
       <NotificationPageLayout>
@@ -36,9 +38,14 @@ const NotificationPage = () => {
     );
   }
 
+  // FIX: Filter notifications to include ONLY those with status 1 (Active)
+  const activeNotices = (Object.values(notice) ?? [])
+    .filter((item) => Number(item.status) === 1);
+
   return (
     <NotificationPageLayout>
-      {notice?.length === 0 ? (
+      {/* Check length of the filtered activeNotices array */}
+      {activeNotices.length === 0 ? (
         <div className="text-center text-gray-500 text-xl font-bold pb-20">
           No notifications available at the moment.
           <div className="w-full flex justify-center items-center p-10">
@@ -51,7 +58,8 @@ const NotificationPage = () => {
           </div>
         </div>
       ) : (
-        (Object.values(notice) ?? [])?.map((item, idx) => (
+        // Map over the filtered active notices
+        activeNotices.map((item, idx) => (
           <NotificationCard
             key={idx}
             title={item.title}
