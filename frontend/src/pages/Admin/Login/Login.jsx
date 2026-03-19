@@ -35,7 +35,7 @@ const Login = () => {
     setIsLoading(true);
     const config = {
       headers: { "Content-Type": "application/json" },
-      withCredentials: false,
+      withCredentials: true,
     };
 
     const usernameRegEx = /[^-s] /;
