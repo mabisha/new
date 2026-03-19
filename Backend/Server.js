@@ -13,6 +13,7 @@ const ALLOWED_ORIGINS = [
   "https://rosebudschoolnepal.org",
   "https://www.rosebudschoolnepal.org",
   "rosebudschoolnepal.org",
+  "https://rosebudbackend.vercel.app/",
   "http://localhost:7896",
   process.env.FRONTEND_URL
 ];

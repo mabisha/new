@@ -122,8 +122,11 @@ exports.Login = async (req, res) => {
 
     // Set token in cookie
     res.cookie("userToken", token, {
-      maxAge: 30 * 60 * 1000, // 30 minutes
-      httpOnly: false,
+      maxAge: 30 * 60 * 1000,  //30 minutes
+      httpOnly: true,       // Security: prevents JS from reading cookie
+      secure: true,         // REQUIRED for SameSite: 'none'
+      sameSite: 'none',     // REQUIRED for cross-domain cookies
+      path: "/"
     });
 
     // Remove password from user object
@@ -399,4 +402,4 @@ exports.updateUsername = async (req, res) => {
   }
 };
 
-exports.GetUserToken = (req, res, next) => {};
+exports.GetUserToken = (req, res, next) => { };
