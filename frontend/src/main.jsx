@@ -15,7 +15,8 @@ const queryClient = new QueryClient({
   },
 });
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <GoogleOAuthProvider clientId="758586698452-7752bbsq0oek6fo17g3qultr42p0ts5u.apps.googleusercontent.com">
+  // <GoogleOAuthProvider clientId="758586698452-7752bbsq0oek6fo17g3qultr42p0ts5u.apps.googleusercontent.com">
+  <GoogleOAuthProvider clientId="607508399916-eq5vvkenbivihmomsnp51l83mmvahogb.apps.googleusercontent.com">
     <React.StrictMode>
       <QueryClientProvider client={queryClient}>
         <DataProvider>
@@ -23,7 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </DataProvider>{" "}
       </QueryClientProvider>
 
-      <Toaster/>
+      <Toaster />
     </React.StrictMode>
   </GoogleOAuthProvider>
 );
