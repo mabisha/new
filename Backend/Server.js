@@ -31,7 +31,7 @@ app.use(
     optionsSuccessStatus: 200,
   })
 );
-
+app.set('trust proxy', 1);
 app.options("*", cors());
 app.use(cookieParser());
 app.use(bodyParser.json({ limit: "50mb" }));
