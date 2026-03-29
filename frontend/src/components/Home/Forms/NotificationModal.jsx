@@ -49,17 +49,15 @@ export default function NotificationModal({
         </div>
       )}
       <div
-        className={`group w-screen overflow-hidden h-full fixed left-0 duration-[600ms] eaese  z-[99999] flex justify-center items-center transition-[opacity,top] ${
-          showNotification
-            ? "flex top-0 opacity-100"
-            : "none -top-10 opacity-0 pointer-events-none"
-        }`}
+        className={`group w-screen overflow-hidden h-full fixed left-0 duration-[600ms] eaese  z-[99999] flex justify-center items-center transition-[opacity,top] ${showNotification
+          ? "flex top-0 opacity-100"
+          : "none -top-10 opacity-0 pointer-events-none"
+          }`}
       >
         <div
           onClick={updateShowNotification}
-          className={`${
-            showNotification ? "opacity-100" : "opacity-0"
-          } w-full ease absolute h-full bg-matte/40 z-0`}
+          className={`${showNotification ? "opacity-100" : "opacity-0"
+            } w-full ease absolute h-full bg-matte/40 z-0`}
         ></div>
 
         <div className="group/image w-[80%] sm:w-[40%] h-[80%] sm:h-[90vh] bg-white overflow-auto z-10 relative flex flex-col justify-start items-start pt-10 rounded-[2px]">
@@ -96,6 +94,17 @@ export default function NotificationModal({
             <p className="w-full flex justify-center items-center text-center sm:text-justify">
               {currentData?.description}
             </p>
+            <a
+              href="https://drive.google.com/file/d/1az0HW2tooeucbHkZiw55hPS-EqHnCUG-/view" //{pdfLink} replce with dymamic link when available
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex justify-center mt-4"
+
+            >
+              <button className="bg-secondary text-white px-6 py-2 rounded font-semibold hover:opacity-80 transition-all duration-300">
+                Click Here
+              </button>
+            </a>
           </div>
         </div>
       </div>
