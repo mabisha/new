@@ -16,8 +16,9 @@ export default function NotificationModal({
     description: "",
   });
 
-  console.log("data in notification modal", data);
-  console.log("pdf link in notification modal", pdfLink);
+  // Add this line after the useState hooks
+  const activeData = data.filter((item) => item.status === 1);
+
   const getCurrentSwiperInstance = (instance) => {
     setCurrentIndex(instance.activeIndex);
   };
@@ -30,12 +31,23 @@ export default function NotificationModal({
     setPreviewImageUrl(null);
   };
 
+  // useEffect(() => {
+  //   setCurrentData({
+  //     title: data[currentIndex].title,
+  //     description: data[currentIndex].description,
+  //   });
+  // }, [currentIndex,]);
+
   useEffect(() => {
-    setCurrentData({
-      title: data[currentIndex].title,
-      description: data[currentIndex].description,
-    });
-  }, [currentIndex]);
+    if (activeData.length > 0) {
+      setCurrentData({
+        title: activeData[currentIndex]?.title,
+        description: activeData[currentIndex]?.description,
+      });
+    }
+  }, [currentIndex, activeData]);
+
+  if (activeData.length === 0) return null;
 
   return (
     <>
@@ -70,7 +82,7 @@ export default function NotificationModal({
 
           <div className=" relative min-h-[10rem] w-full h-[65vh] overflow-hidden p-4  ">
             <SimpleSlider
-              images={data}
+              images={activeData}
               getCurrentSwiperInstance={getCurrentSwiperInstance}
               containImage={true}
               handleImageClick={handleImageClick}
@@ -96,7 +108,7 @@ export default function NotificationModal({
             <p className="w-full flex justify-center items-center text-center sm:text-justify">
               {currentData?.description}
             </p>
-            {data[currentIndex]?.description === "Result" && (
+            {activeData[currentIndex]?.description === "Result" && (
               <a
                 href="https://drive.google.com/file/d/1az0HW2tooeucbHkZiw55hPS-EqHnCUG-/view" // {pdfLink} replce with dymamic link when available
                 target="_blank"
