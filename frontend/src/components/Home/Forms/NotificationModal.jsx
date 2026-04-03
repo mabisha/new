@@ -16,6 +16,8 @@ export default function NotificationModal({
     description: "",
   });
 
+  console.log("data in notification modal", data);
+  console.log("pdf link in notification modal", pdfLink);
   const getCurrentSwiperInstance = (instance) => {
     setCurrentIndex(instance.activeIndex);
   };
@@ -94,17 +96,18 @@ export default function NotificationModal({
             <p className="w-full flex justify-center items-center text-center sm:text-justify">
               {currentData?.description}
             </p>
-            <a
-              href="https://drive.google.com/file/d/1az0HW2tooeucbHkZiw55hPS-EqHnCUG-/view" //{pdfLink} replce with dymamic link when available
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full flex justify-center mt-4"
+            {data[currentIndex]?.description === "Result" && (
+              <a
+                href="https://drive.google.com/file/d/1az0HW2tooeucbHkZiw55hPS-EqHnCUG-/view" // {pdfLink} replce with dymamic link when available
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex justify-center mt-4"
 
-            >
-              <button className="bg-secondary text-white px-6 py-2 rounded font-semibold hover:opacity-80 transition-all duration-300">
-                Click Here
-              </button>
-            </a>
+              >
+                <button className="bg-secondary text-white px-6 py-2 rounded font-semibold hover:opacity-80 transition-all duration-300">
+                  Click Here
+                </button>
+              </a>)}
           </div>
         </div>
       </div>
